@@ -6,12 +6,16 @@ namespace Tests\TirePressureMonitoring;
 
 use PHPUnit\Framework\TestCase;
 use RacingCar\TirePressureMonitoring\Alarm;
+use RacingCar\TirePressureMonitoring\Sensor;
 
 class AlarmTest extends TestCase
 {
     public function testFoo(): void
     {
-        $alarm = new Alarm();
+        $sensor = $this->createMock(Sensor::class);
+        $alarm = new Alarm($sensor);
         $this->assertFalse($alarm->isAlarmOn());
+        $alarm->check();
+        $this->assertTrue($alarm->isAlarmOn());
     }
 }
