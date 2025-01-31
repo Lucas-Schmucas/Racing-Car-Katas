@@ -8,11 +8,11 @@ use Exception;
 
 class TelemetryDiagnosticControls
 {
-    public const DIAGNOSTIC_CHANNEL_CONNECTION_STRING = '*111#';
+    public const string DIAGNOSTIC_CHANNEL_CONNECTION_STRING = '*111#';
 
     public string $diagnosticInfo = '';
 
-    private \RacingCar\TelemetrySystem\TelemetryClient $telemetryClient;
+    private TelemetryClient $telemetryClient;
 
     public function __construct()
     {

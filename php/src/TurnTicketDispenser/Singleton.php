@@ -1,6 +1,6 @@
 <?php
 
-namespace RacingCarKatas\TurnTicketDispenser;
+namespace RacingCar\TurnTicketDispenser;
 abstract class Singleton
 {
     private static array $instances = [];

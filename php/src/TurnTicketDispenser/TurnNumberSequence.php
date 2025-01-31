@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RacingCar\TurnTicketDispenser;
 
-use RacingCarKatas\TurnTicketDispenser\Singleton;
+use RacingCar\TurnTicketDispenser\Singleton;
 
 class TurnNumberSequence extends Singleton
 {
