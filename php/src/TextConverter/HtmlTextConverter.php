@@ -11,15 +11,13 @@ class HtmlTextConverter
     ) {
     }
 
-    public function convertToHtml(): string
+    public function convertFileToHtml(): string
     {
         $f = fopen($this->fullFileNameWithPath, 'r');
 
         $html = '';
         while (($line = fgets($f)) !== false) {
-            $line = rtrim($line);
-            $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
-            $html .= '<br />';
+            $html .= $this->convertStringToHtml($line);
         }
         return $html;
     }
@@ -27,5 +25,26 @@ class HtmlTextConverter
     public function getFileName(): string
     {
         return $this->fullFileNameWithPath;
+    }
+
+    public function convertStringToHtml(string $string): string
+    {
+        $string = $this->removeEmptySpace($string);
+        $string = $this->convertSpecialChars($string);
+        return $this->setBreakAtEndOfLine($string);
+    }
+    public function removeEmptySpace(string $line): string
+    {
+        return rtrim($line);
+    }
+
+    public function convertSpecialChars(string $line): string
+    {
+        return htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
+    }
+
+    public function setBreakAtEndOfLine($line): string
+    {
+        return $line . '<br>';
     }
 }

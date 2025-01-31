@@ -12,19 +12,10 @@ class HtmlPagesConverter
     private array $breaks;
 
     public function __construct(
-        private string $filename
+        private readonly string $filename,
+        public HtmlTextConverter $htmlTextConverter
     ) {
-        $this->breaks = [0];
-        $f = fopen($this->filename, 'r');
-        while (($line = fgets($f)) !== false) {
-            $line = rtrim($line);
-            if (str_contains($line, 'PAGE_BREAK')) {
-                $pageBreakPosition = ftell($f);
-                $this->breaks[] = ftell($f);
-            }
-        }
-        $this->breaks[] = ftell($f);
-        fclose($f);
+       $this->findBreakPositions();
     }
 
     public function getFileName(): string
@@ -44,10 +35,23 @@ class HtmlPagesConverter
             if (str_contains($line, 'PAGE_BREAK')) {
                 break;
             }
-            $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
-            $html .= '<br />';
+            $html .= $this->htmlTextConverter->convertStringToHtml($line);
         }
         fclose($f);
         return $html;
+    }
+    public function findBreakPositions(): void
+    {
+        $f = fopen($this->filename, 'r');
+        $this->breaks = [0];
+        $lineNumber = 0;
+        while (($line = fgets($f)) !== false) {
+            if (str_contains($line, 'PAGE_BREAK')) {
+                $this->breaks[] = $lineNumber;
+            }
+            $lineNumber += strlen($line);
+        }
+        $this->breaks[] = $lineNumber;
+        fclose($f);
     }
 }

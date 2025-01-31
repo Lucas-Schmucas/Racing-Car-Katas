@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace RacingCar\TurnTicketDispenser;
 
-class TurnNumberSequence
+use RacingCar\TurnTicketDispenser\Singleton;
+
+class TurnNumberSequence extends Singleton
 {
     private static int $turnNumber = 0;
 
