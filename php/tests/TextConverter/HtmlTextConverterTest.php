@@ -9,6 +9,13 @@ use RacingCar\TextConverter\HtmlTextConverter;
 
 class HtmlTextConverterTest extends TestCase
 {
+    public function testSetFileName(): void
+    {
+        $converter = new HtmlTextConverter('foo');
+        $this->assertSame('foo', $converter->getFileName());
+        $converter->setFileName('bar');
+        $this->assertSame('bar', $converter->getFileName());
+    }
     public function testRemoveEmptySpaces(): void
     {
         $converter = new HtmlTextConverter('foo');
@@ -38,7 +45,7 @@ class HtmlTextConverterTest extends TestCase
         $this->assertSame($converter->getFileName(), $fileName);
 
 
-        $result = $converter->convertToHtml();
+        $result = $converter->convertFileToHtml();
 
         $this->assertSame($result, '<br>two breaks, one special char &quot; and two spaces at the end<br>');
     }
